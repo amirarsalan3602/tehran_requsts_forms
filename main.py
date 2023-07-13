@@ -72,28 +72,6 @@ def sports_field():
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'en-US,en;q=0.9,',
     }
-
-    # header2 = {
-    #     'Cookie': f'.ASPXANONYMOUS={a}; _pk_id.429.2640=0e0b90cd7d72cb27.1689094065.; dnn_IsMobile=False; language=fa-IR; __RequestVerificationToken={tokens}; _pk_ses.429.2640=1',
-    #     'Content-Length': '0',
-    #     'Tabid': '99',
-    #     'Sec-Ch-Ua': '"Chromium";v="109", "Not_A Brand";v="99"',
-    #     'Requestverificationtoken': f"{tokens}",
-    #     'Sec-Ch-Ua-Mobile': '?0',
-    #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36',
-    #     'Content-Type': 'application/x-www-form-urlencoded',
-    #     'Accept': 'application/json, text/plain, */*',
-    #     'Moduleid': '518',
-    #     'Dnnsf-Time-Offset': '-210',
-    #     'Sec-Ch-Ua-Platform': "Linux",
-    #     'Origin': 'https://eforms.tehran.ir',
-    #     'Sec-Fetch-Site': 'same-origin',
-    #     'Sec-Fetch-Mode': 'cors',
-    #     'Sec-Fetch-Dest': 'empty',
-    #     'Referer': 'https://eforms.tehran.ir/sport-Champion/Individual-competition',
-    #     'Accept-Encoding': 'gzip, deflate',
-    #     'Accept-Language': 'en-US,en;q=0.9,',
-    # }
     Data = {
         'StaticText': '<div class="header"> <h2> <img src="/Portals/0/Images/form-icons/icons-form.png">قهرمان شهر (مسابقه انفرادی)</h2></div>',
         'gender': Gender,
