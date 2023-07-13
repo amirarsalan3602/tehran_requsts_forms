@@ -279,7 +279,7 @@ def district():
         'StaticText1': '<p class="uploat-text">** خواهشمند است عکس خود را در این بخش آپلود نمایید.<br />با فرمت jpg، jpeg، png و نهایتا با حجم 1 مگابایت </p>',
         'TrueFalseCheckbox': 'False',
         'TrueFalseCheckbox2': 'False',
-        'CAPTCHAcaptchaenc': d['captcha_token'],
+        'CAPTCHAcaptchaenc': captcha['Acaptchaenc'],
         'CAPTCHA': '',
         'Submit': '',
         'SingleFileUpload': '{"name":"","state":""}'
@@ -295,8 +295,7 @@ def district():
         print('error')
     else:
         return {'region': d['region'], 'gender': d['gender'],
-                'sports': d['sports'], 'age': d['age'], 'district': data_json[i - 1]['path'],
-                "captcha_token": d['captcha_token'], "captcha_src": d['captcha_src']}
+                'sports': d['sports'], 'age': d['age'], 'district': data_json[i - 1]['path']}
 
 
 # completed
@@ -359,8 +358,7 @@ def parish():
     else:
         return {'region': d['region'], 'gender': d['gender'],
                 'sports': d['sports'], 'age': d['age'], 'district': d['district'],
-                "parish": data_json[i - 1]['path'], "captcha_token": d['captcha_token'],
-                "captcha_src": d['captcha_src']}
+                "parish": data_json[i - 1]['path']}
 
 
 # Not completed
@@ -411,8 +409,20 @@ def submit():
         'TrueFalseCheckbox': 'False',
         'TrueFalseCheckbox2': 'False',
         'CAPTCHAcaptchaenc': captcha['Acaptchaenc'],
-        'CAPTCHA': ...,
+        'CAPTCHA': "mgb7r3",
         'Submit': '',
         'SingleFileUpload': '{"name":"","state":""}'
     }
     response = requests.post(url=url, headers=header, data=Data)
+    messages = response.text
+    if messages.find('کد ملی وارد شده تکراری است') >= 2:
+        print('کد ملی وارد شده تکراری است')
+    elif messages.find('کد امنیتی معتبر نمی باشد.') >= 2:
+        print('کد امنیتی معتبر نمی باشد.')
+    elif messages.find('ضمن تشکر اطلاعات با موفقیت ثبت گردید.') >= 2:
+        print('ضمن تشکر اطلاعات با موفقیت ثبت گردید.')
+    else:
+        print(messages)
+
+
+submit()
