@@ -3,7 +3,25 @@ import re
 import json
 from bs4 import BeautifulSoup
 import html_to_json
+import pytesseract
+import cv2
+from os import remove, listdir
 
+def get_path(url):
+    return url[url.find('captcha=')+8:url.find('&alias')]
+
+def bypass_captcha(url):
+    for i in listdir('./imgs'):
+        remove('./imgs/'+i)
+    url = 'https://eforms.tehran.ir'+url
+    with open(f'./imgs/'+get_path(url)+'.jpg', 'wb') as f:
+        f.write(requests.get(url).content)
+    image = cv2.imread('./imgs/'+get_path(url)+'.jpg')
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.GaussianBlur(gray, (3,3), 0)
+    gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    text = pytesseract.image_to_string(gray, lang='eng')
+    return text.lower()
 
 # completed
 def verification_token():
@@ -368,6 +386,8 @@ def submit():
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'en-US,en;q=0.9',
     }
+    code_ = bypass_captcha(captcha['src'])
+    print(code_)
     Data = {
         'StaticText': '<div class="header"> <h2> <img src="/Portals/0/Images/form-icons/icons-form.png">قهرمان شهر (مسابقه انفرادی)</h2></div>',
         'gender': d['gender'],
@@ -387,12 +407,13 @@ def submit():
         'TrueFalseCheckbox': 'False',
         'TrueFalseCheckbox2': 'False',
         'CAPTCHAcaptchaenc': captcha['Acaptchaenc'],
-        'CAPTCHA': "mgb7r3",
+        'CAPTCHA': code_,
         'Submit': '',
         'SingleFileUpload': '{"name":"","state":""}'
     }
     response = requests.post(url=url, headers=header, data=Data)
     messages = response.text
+    print(messages)
     if messages.find('کد ملی وارد شده تکراری است') >= 2:
         print('کد ملی وارد شده تکراری است')
     elif messages.find('کد امنیتی معتبر نمی باشد.') >= 2:
